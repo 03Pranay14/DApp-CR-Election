@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CR Election - Decentralized Voting System</title>
+    <meta name="description" content="Blockchain-based Class Representative Election System">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Web3.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.8.0/dist/web3.min.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>🗳️ CR Election System</h1>
+        <button id="connectWalletBtn" class="connect-btn">Connect Wallet</button>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Admin Section (Visible only to Election Commissioner) -->
+        <section id="adminSection" class="admin-section" style="display:none;">
+            <h2>⚙️ Admin Panel</h2>
+            <div class="admin-grid">
+                <!-- Add Candidate -->
+                <div class="admin-card">
+                    <h3>➕ Add Candidate</h3>
+                    <input type="text" id="candidateName" placeholder="Candidate Name" class="input-field" maxlength="50">
+                    <input type="text" id="candidateDept" placeholder="Department (e.g., CSE, ECE)" class="input-field" maxlength="30">
+                    <button id="addCandidateBtn" class="action-btn">Add Candidate</button>
+                </div>
+                
+                <!-- Register Voter -->
+                <div class="admin-card">
+                    <h3>📝 Register Voter</h3>
+                    <input type="text" id="voterAddress" placeholder="Voter Ethereum Address (0x...)" class="input-field">
+                    <button id="registerVoterBtn" class="action-btn">Register Voter</button>
+                </div>
+                
+                <!-- Election Control -->
+                <div class="admin-card">
+                    <h3>🎮 Election Control</h3>
+                    <button id="startElectionBtn" class="action-btn start-btn">Start Election</button>
+                    <button id="endElectionBtn" class="action-btn end-btn">End Election</button>
+                </div>
+                
+                <!-- Declare Results -->
+                <div class="admin-card">
+                    <h3>🏆 Declare Results</h3>
+                    <p class="info-text">End election first to declare results</p>
+                    <button id="declareResultBtn" class="action-btn result-btn">Declare Winner</button>
+                </div>
+                
+                <!-- Reset Election -->
+                <div class="admin-card">
+                    <h3>🔄 Reset Election</h3>
+                    <p class="warning-text">⚠️ This will delete all data!</p>
+                    <button id="resetElectionBtn" class="action-btn reset-btn">Reset Election</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Status Section -->
+        <section class="status-section">
+            <h2>📊 Election Status</h2>
+            <div class="status-grid">
+                <div class="status-item">
+                    <span class="status-label">Election:</span>
+                    <span id="electionStatus" class="status-value">Loading...</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Your Status:</span>
+                    <span id="voterStatus" class="status-value">Not Connected</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Total Votes:</span>
+                    <span id="totalVotes" class="status-value">0</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Winner Section (Shows when results are declared) -->
+        <section id="winnerSection" class="winner-section" style="display:none;">
+            <h2>🏆 Election Winner Declared!</h2>
+            <div class="winner-card">
+                <div class="winner-medal">🥇</div>
+                <h3 id="winnerName">Loading...</h3>
+                <p id="winnerDept">Department</p>
+                <div class="winner-votes" id="winnerVotes">0 votes</div>
+            </div>
+        </section>
+
+        <!-- Candidates Section -->
+        <section class="candidate-section">
+            <h2>👥 Candidates</h2>
+            <div id="candidatesContainer" class="candidates">
+                <p style="color: #c5c6c7; text-align: center;">Connect your wallet to view candidates</p>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="result-section">
+            <h2>📈 Current Results</h2>
+            <div id="resultsContainer" class="results">
+                <p style="color: #c5c6c7; text-align: center;">No results available yet</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>Decentralized CR Election System | Powered by Ethereum Blockchain</p>
+        <p style="font-size: 0.8rem; margin-top: 0.5rem; opacity: 0.7;">Built with Solidity, Web3.js & ❤️</p>
+    </footer>
+
+    <!-- Notification Toast -->
+    <div id="notification" class="notification"></div>
+
+    <!-- JavaScript -->
+    <script src="app.js"></script>
+</body>
+</html>
