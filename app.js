@@ -366,7 +366,7 @@ const contractABI = [
 	}
 ];
 
-const contractAddress = "0x8451961927D8E8867032Fe0Bb1F6AC33956Ce450";
+const contractAddress = "0x8fc7BAc109Fd9b7e3B89Ca1Cc1e1e192DE62cBf0";
 
 // ==================== GLOBAL VARIABLES ====================
 let web3;
