@@ -11,11 +11,412 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     
-    <!-- Stylesheet -->
-    <link rel="stylesheet" href="style.css">
-    
     <!-- Web3.js Library -->
     <script src="https://cdn.jsdelivr.net/npm/web3@1.8.0/dist/web3.min.js"></script>
+    
+    <style>
+        /* ==================== GENERAL STYLING ==================== */
+        * {
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #0b0c10;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ==================== HEADER ==================== */
+        header {
+            background: #1f2833;
+            color: #66fcf1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        .connect-btn {
+            background: #45a29e;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .connect-btn:hover {
+            background: #66fcf1;
+            color: #0b0c10;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(102, 252, 241, 0.3);
+        }
+
+        /* ==================== MAIN CONTENT ==================== */
+        main {
+            flex: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* ==================== SECTIONS ==================== */
+        .section {
+            background: #1f2833;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(255,255,255,0.05);
+        }
+
+        .admin-section {
+            border: 2px solid #45a29e;
+        }
+
+        .section h2 {
+            color: #66fcf1;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        /* ==================== GRID LAYOUTS ==================== */
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .admin-card {
+            background: #0b0c10;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 2px solid #45a29e;
+            transition: all 0.3s ease;
+        }
+
+        .admin-card:hover {
+            border-color: #66fcf1;
+            box-shadow: 0 4px 12px rgba(102, 252, 241, 0.2);
+        }
+
+        .admin-card h3 {
+            color: #66fcf1;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* ==================== FORM ELEMENTS ==================== */
+        .input-field {
+            width: 100%;
+            padding: 0.7rem;
+            margin-bottom: 0.8rem;
+            background: #1f2833;
+            border: 2px solid #45a29e;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #66fcf1;
+            box-shadow: 0 0 8px rgba(102, 252, 241, 0.3);
+        }
+
+        .input-field::placeholder {
+            color: #c5c6c7;
+            opacity: 0.7;
+        }
+
+        /* ==================== BUTTONS ==================== */
+        .action-btn {
+            width: 100%;
+            background: #45a29e;
+            border: none;
+            padding: 0.7rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            color: white;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .action-btn:hover {
+            background: #66fcf1;
+            color: #0b0c10;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 252, 241, 0.3);
+        }
+
+        .action-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            opacity: 0.5;
+            transform: none;
+        }
+
+        .start-btn { background: #28a745; }
+        .start-btn:hover { background: #34ce57; }
+
+        .end-btn { background: #dc3545; }
+        .end-btn:hover { background: #e74c3c; }
+
+        .result-btn { background: #ffc107; color: #0b0c10; }
+        .result-btn:hover { background: #ffca2c; }
+
+        .reset-btn { background: #dc3545; }
+        .reset-btn:hover { background: #e74c3c; }
+
+        /* ==================== STATUS SECTION ==================== */
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #0b0c10;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #45a29e;
+        }
+
+        .status-label {
+            color: #c5c6c7;
+            font-weight: 500;
+        }
+
+        .status-value {
+            color: #66fcf1;
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+
+        /* ==================== WINNER SECTION ==================== */
+        .winner-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .winner-section h2 {
+            color: #fff;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .winner-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .winner-medal {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .winner-card h3 {
+            color: #fff;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .winner-votes {
+            color: #66fcf1;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        /* ==================== CANDIDATE SECTION ==================== */
+        .candidates {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .candidate-card {
+            background: #0b0c10;
+            padding: 1.2rem;
+            border: 2px solid #45a29e;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .candidate-card:hover {
+            transform: translateY(-5px);
+            border-color: #66fcf1;
+            box-shadow: 0 5px 15px rgba(102, 252, 241, 0.2);
+        }
+
+        .candidate-card h3 {
+            color: #fff;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .vote-count {
+            color: #66fcf1;
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin: 0.8rem 0;
+        }
+
+        .vote-btn {
+            width: 100%;
+            background: #45a29e;
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            color: white;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .vote-btn:hover:not(:disabled) {
+            background: #66fcf1;
+            color: #0b0c10;
+            transform: translateY(-2px);
+        }
+
+        .vote-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        /* ==================== NOTIFICATION ==================== */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #45a29e;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            display: none;
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+            max-width: 350px;
+            font-weight: 500;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(400px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .notification.success { background: #28a745; }
+        .notification.error { background: #dc3545; }
+        .notification.info { background: #45a29e; }
+
+        /* ==================== FOOTER ==================== */
+        footer {
+            background: #1f2833;
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.85rem;
+            color: #c5c6c7;
+            margin-top: auto;
+            border-top: 2px solid #45a29e;
+        }
+
+        /* ==================== LOADING SPINNER ==================== */
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            margin-left: 0.5rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ==================== RESPONSIVE DESIGN ==================== */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            
+            header h1 {
+                font-size: 1.3rem;
+            }
+            
+            main {
+                padding: 1rem;
+            }
+            
+            .admin-grid,
+            .candidates,
+            .status-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .notification {
+                left: 10px;
+                right: 10px;
+                bottom: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Header -->
@@ -26,22 +427,21 @@
 
     <!-- Main Content -->
     <main>
-        <!-- Admin Section (Visible only to Election Commissioner) -->
-        <section id="adminSection" class="admin-section" style="display:none;">
+        <!-- Admin Section -->
+        <section id="adminSection" class="section admin-section" style="display:none;">
             <h2>⚙️ Admin Panel</h2>
             <div class="admin-grid">
                 <!-- Add Candidate -->
                 <div class="admin-card">
                     <h3>➕ Add Candidate</h3>
                     <input type="text" id="candidateName" placeholder="Candidate Name" class="input-field" maxlength="50">
-                    <input type="text" id="candidateDept" placeholder="Department (e.g., CSE, ECE)" class="input-field" maxlength="30">
                     <button id="addCandidateBtn" class="action-btn">Add Candidate</button>
                 </div>
                 
                 <!-- Register Voter -->
                 <div class="admin-card">
                     <h3>📝 Register Voter</h3>
-                    <input type="text" id="voterAddress" placeholder="Voter Ethereum Address (0x...)" class="input-field">
+                    <input type="text" id="voterAddress" placeholder="Voter Address (0x...)" class="input-field">
                     <button id="registerVoterBtn" class="action-btn">Register Voter</button>
                 </div>
                 
@@ -52,24 +452,16 @@
                     <button id="endElectionBtn" class="action-btn end-btn">End Election</button>
                 </div>
                 
-                <!-- Declare Results -->
-                <div class="admin-card">
-                    <h3>🏆 Declare Results</h3>
-                    <p class="info-text">End election first to declare results</p>
-                    <button id="declareResultBtn" class="action-btn result-btn">Declare Winner</button>
-                </div>
-                
                 <!-- Reset Election -->
                 <div class="admin-card">
                     <h3>🔄 Reset Election</h3>
-                    <p class="warning-text">⚠️ This will delete all data!</p>
-                    <button id="resetElectionBtn" class="action-btn reset-btn">Reset Election</button>
+                    <button id="resetElectionBtn" class="action-btn reset-btn">Reset Everything</button>
                 </div>
             </div>
         </section>
 
         <!-- Status Section -->
-        <section class="status-section">
+        <section class="section">
             <h2>📊 Election Status</h2>
             <div class="status-grid">
                 <div class="status-item">
@@ -84,33 +476,28 @@
                     <span class="status-label">Total Votes:</span>
                     <span id="totalVotes" class="status-value">0</span>
                 </div>
+                <div class="status-item">
+                    <span class="status-label">Candidates:</span>
+                    <span id="candidateCount" class="status-value">0</span>
+                </div>
             </div>
         </section>
 
-        <!-- Winner Section (Shows when results are declared) -->
+        <!-- Winner Section -->
         <section id="winnerSection" class="winner-section" style="display:none;">
-            <h2>🏆 Election Winner Declared!</h2>
+            <h2>🏆 Election Winner!</h2>
             <div class="winner-card">
                 <div class="winner-medal">🥇</div>
                 <h3 id="winnerName">Loading...</h3>
-                <p id="winnerDept">Department</p>
                 <div class="winner-votes" id="winnerVotes">0 votes</div>
             </div>
         </section>
 
         <!-- Candidates Section -->
-        <section class="candidate-section">
+        <section class="section">
             <h2>👥 Candidates</h2>
             <div id="candidatesContainer" class="candidates">
-                <p style="color: #c5c6c7; text-align: center;">Connect your wallet to view candidates</p>
-            </div>
-        </section>
-
-        <!-- Results Section -->
-        <section class="result-section">
-            <h2>📈 Current Results</h2>
-            <div id="resultsContainer" class="results">
-                <p style="color: #c5c6c7; text-align: center;">No results available yet</p>
+                <p style="color: #c5c6c7; text-align: center;">Connect wallet to view candidates</p>
             </div>
         </section>
     </main>
@@ -121,10 +508,800 @@
         <p style="font-size: 0.8rem; margin-top: 0.5rem; opacity: 0.7;">Built with Solidity, Web3.js & ❤️</p>
     </footer>
 
-    <!-- Notification Toast -->
+    <!-- Notification -->
     <div id="notification" class="notification"></div>
 
     <!-- JavaScript -->
-    <script src="app.js"></script>
+    <script>
+        // ==================== CONTRACT CONFIGURATION ====================
+        const contractABI = [
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_name",
+				"type": "string"
+			}
+		],
+		"name": "addCandidate",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "candidateId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			}
+		],
+		"name": "CandidateAdded",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_candidateId",
+				"type": "uint256"
+			}
+		],
+		"name": "castVote",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [],
+		"name": "ElectionEnded",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [],
+		"name": "ElectionReset",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [],
+		"name": "ElectionStarted",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "endElection",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_voterAddress",
+				"type": "address"
+			}
+		],
+		"name": "registerVoter",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "resetElection",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "startElection",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "voter",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "candidateId",
+				"type": "uint256"
+			}
+		],
+		"name": "VoteCasted",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "voter",
+				"type": "address"
+			}
+		],
+		"name": "VoterRegistered",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "candidateCount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "candidates",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "voteCount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "exists",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "electionCommissioner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getAllCandidates",
+		"outputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "ids",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "string[]",
+				"name": "names",
+				"type": "string[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "voteCounts",
+				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_candidateId",
+				"type": "uint256"
+			}
+		],
+		"name": "getCandidate",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "voteCount",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getElectionStatus",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "active",
+				"type": "bool"
+			},
+			{
+				"internalType": "uint256",
+				"name": "numCandidates",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "numVotes",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "commissioner",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_voterAddress",
+				"type": "address"
+			}
+		],
+		"name": "getVoterInfo",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "isRegistered",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "hasVoted",
+				"type": "bool"
+			},
+			{
+				"internalType": "uint256",
+				"name": "votedCandidateId",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getWinner",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "winnerId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "winnerName",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "winnerVotes",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "isElectionActive",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalVotes",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "voters",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "isRegistered",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "hasVoted",
+				"type": "bool"
+			},
+			{
+				"internalType": "uint256",
+				"name": "votedCandidateId",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+
+        // REPLACE WITH YOUR DEPLOYED CONTRACT ADDRESS
+        const contractAddress = "0x293df60f7Aa016e1BE72C7BCedE13ac38B17386a";
+
+        // ==================== GLOBAL VARIABLES ====================
+        let web3;
+        let contract;
+        let currentAccount;
+        let isAdmin = false;
+
+        // ==================== INITIALIZATION ====================
+        async function initWeb3() {
+            if (typeof window.ethereum !== 'undefined') {
+                web3 = new Web3(window.ethereum);
+                console.log('✅ Web3 initialized');
+                return true;
+            } else {
+                showNotification('Please install MetaMask!', 'error');
+                return false;
+            }
+        }
+
+        // ==================== WALLET CONNECTION ====================
+        async function connectWallet() {
+            try {
+                const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+                currentAccount = accounts[0];
+                
+                document.getElementById('connectWalletBtn').textContent = 
+                    `${currentAccount.substring(0, 6)}...${currentAccount.substring(38)}`;
+                
+                contract = new web3.eth.Contract(contractABI, contractAddress);
+                
+                await checkAdminRole();
+                await loadElectionData();
+                
+                showNotification('✅ Wallet connected!', 'success');
+            } catch (error) {
+                console.error('Connection error:', error);
+                showNotification('Failed to connect wallet', 'error');
+            }
+        }
+
+        // ==================== ADMIN CHECK ====================
+        async function checkAdminRole() {
+            try {
+                const commissioner = await contract.methods.electionCommissioner().call();
+                isAdmin = commissioner.toLowerCase() === currentAccount.toLowerCase();
+                
+                if (isAdmin) {
+                    document.getElementById('adminSection').style.display = 'block';
+                    console.log('✅ Admin access granted');
+                }
+            } catch (error) {
+                console.error('Admin check error:', error);
+            }
+        }
+
+        // ==================== LOAD ELECTION DATA ====================
+        async function loadElectionData() {
+            if (!contract || !currentAccount) return;
+
+            try {
+                // Get election status
+                const status = await contract.methods.getElectionStatus().call();
+                const isActive = status[0];
+                const numCandidates = status[1];
+                const numVotes = status[2];
+                
+                // Update status display
+                const statusElement = document.getElementById('electionStatus');
+                statusElement.textContent = isActive ? '✅ Active' : '❌ Inactive';
+                statusElement.style.color = isActive ? '#28a745' : '#dc3545';
+                
+                document.getElementById('totalVotes').textContent = numVotes;
+                document.getElementById('candidateCount').textContent = numCandidates;
+                
+                // Get voter info
+                const voterInfo = await contract.methods.getVoterInfo(currentAccount).call();
+                const registered = voterInfo[0];
+                const hasVoted = voterInfo[1];
+                
+                const voterStatusElement = document.getElementById('voterStatus');
+                if (!registered) {
+                    voterStatusElement.textContent = '❌ Not Registered';
+                    voterStatusElement.style.color = '#dc3545';
+                } else if (hasVoted) {
+                    voterStatusElement.textContent = '✅ Voted';
+                    voterStatusElement.style.color = '#28a745';
+                } else {
+                    voterStatusElement.textContent = '⏳ Can Vote';
+                    voterStatusElement.style.color = '#ffc107';
+                }
+                
+                // Load candidates
+                await loadCandidates(isActive, registered, hasVoted);
+                
+                // Load winner if election ended
+                if (!isActive && numVotes > 0) {
+                    await loadWinner();
+                } else {
+                    document.getElementById('winnerSection').style.display = 'none';
+                }
+                
+            } catch (error) {
+                console.error('Error loading data:', error);
+                showNotification('Failed to load election data', 'error');
+            }
+        }
+
+        // ==================== LOAD CANDIDATES ====================
+        async function loadCandidates(isActive, isRegistered, hasVoted) {
+            try {
+                const data = await contract.methods.getAllCandidates().call();
+                const container = document.getElementById('candidatesContainer');
+                container.innerHTML = '';
+                
+                if (!data || data[0].length === 0) {
+                    container.innerHTML = '<p style="color: #c5c6c7; text-align: center;">No candidates yet</p>';
+                    return;
+                }
+                
+                const canVote = isRegistered && !hasVoted && isActive;
+                
+                for (let i = 0; i < data[0].length; i++) {
+                    const card = document.createElement('div');
+                    card.className = 'candidate-card';
+                    card.innerHTML = `
+                        <h3>${data[1][i]}</h3>
+                        <div class="vote-count">${data[2][i]} votes</div>
+                        <button class="vote-btn" onclick="castVote(${data[0][i]})" 
+                            ${!canVote ? 'disabled' : ''}>
+                            ${canVote ? '🗳️ Vote' : '❌ Unavailable'}
+                        </button>
+                    `;
+                    container.appendChild(card);
+                }
+                
+            } catch (error) {
+                console.error('Error loading candidates:', error);
+                document.getElementById('candidatesContainer').innerHTML = 
+                    '<p style="color: #dc3545; text-align: center;">Failed to load candidates</p>';
+            }
+        }
+
+        // ==================== LOAD WINNER ====================
+        async function loadWinner() {
+            try {
+                const winner = await contract.methods.getWinner().call();
+                
+                document.getElementById('winnerName').textContent = winner[1];
+                document.getElementById('winnerVotes').textContent = `${winner[2]} votes`;
+                document.getElementById('winnerSection').style.display = 'block';
+                
+            } catch (error) {
+                console.log('Winner not available yet');
+                document.getElementById('winnerSection').style.display = 'none';
+            }
+        }
+
+        // ==================== ADMIN: ADD CANDIDATE ====================
+        async function addCandidate() {
+            if (!isAdmin) {
+                showNotification('❌ Only admin can add candidates!', 'error');
+                return;
+            }
+            
+            const name = document.getElementById('candidateName').value.trim();
+            
+            if (!name) {
+                showNotification('⚠️ Please enter candidate name', 'error');
+                return;
+            }
+            
+            if (name.length > 50) {
+                showNotification('⚠️ Name too long (max 50 characters)', 'error');
+                return;
+            }
+            
+            try {
+                showNotification('⏳ Adding candidate...', 'info');
+                
+                await contract.methods.addCandidate(name)
+                    .send({ from: currentAccount });
+                
+                showNotification(`✅ ${name} added successfully!`, 'success');
+                document.getElementById('candidateName').value = '';
+                
+                await loadElectionData();
+            } catch (error) {
+                console.error('Error adding candidate:', error);
+                if (error.message.includes('Election is currently active')) {
+                    showNotification('❌ Cannot add candidates during active election', 'error');
+                } else {
+                    showNotification('❌ Failed to add candidate', 'error');
+                }
+            }
+        }
+
+        // ==================== ADMIN: REGISTER VOTER ====================
+        async function registerVoter() {
+            if (!isAdmin) {
+                showNotification('❌ Only admin can register voters!', 'error');
+                return;
+            }
+            
+            const address = document.getElementById('voterAddress').value.trim();
+            
+            if (!address) {
+                showNotification('⚠️ Please enter voter address', 'error');
+                return;
+            }
+            
+            if (!web3.utils.isAddress(address)) {
+                showNotification('⚠️ Invalid Ethereum address', 'error');
+                return;
+            }
+            
+            try {
+                showNotification('⏳ Registering voter...', 'info');
+                
+                await contract.methods.registerVoter(address)
+                    .send({ from: currentAccount });
+                
+                showNotification('✅ Voter registered successfully!', 'success');
+                document.getElementById('voterAddress').value = '';
+                
+                if (address.toLowerCase() === currentAccount.toLowerCase()) {
+                    await loadElectionData();
+                }
+            } catch (error) {
+                console.error('Error registering voter:', error);
+                if (error.message.includes('Already registered')) {
+                    showNotification('❌ Voter already registered', 'error');
+                } else {
+                    showNotification('❌ Failed to register voter', 'error');
+                }
+            }
+        }
+
+        // ==================== ADMIN: START ELECTION ====================
+        async function startElection() {
+            if (!isAdmin) {
+                showNotification('❌ Only admin can start election!', 'error');
+                return;
+            }
+            
+            try {
+                if (!confirm('Start the election now?')) {
+                    return;
+                }
+                
+                showNotification('⏳ Starting election...', 'info');
+                
+                await contract.methods.startElection()
+                    .send({ from: currentAccount });
+                
+                showNotification('✅ Election started!', 'success');
+                await loadElectionData();
+            } catch (error) {
+                console.error('Error starting election:', error);
+                if (error.message.includes('No candidates available')) {
+                    showNotification('❌ Add candidates first!', 'error');
+                } else {
+                    showNotification('❌ Failed to start election', 'error');
+                }
+            }
+        }
+
+        // ==================== ADMIN: END ELECTION ====================
+        async function endElection() {
+            if (!isAdmin) {
+                showNotification('❌ Only admin can end election!', 'error');
+                return;
+            }
+            
+            try {
+                if (!confirm('End the election now? This will finalize all votes.')) {
+                    return;
+                }
+                
+                showNotification('⏳ Ending election...', 'info');
+                
+                await contract.methods.endElection()
+                    .send({ from: currentAccount });
+                
+                showNotification('✅ Election ended!', 'success');
+                await loadElectionData();
+            } catch (error) {
+                console.error('Error ending election:', error);
+                showNotification('❌ Failed to end election', 'error');
+            }
+        }
+
+        // ==================== ADMIN: RESET ELECTION ====================
+        async function resetElection() {
+            if (!isAdmin) {
+                showNotification('❌ Only admin can reset election!', 'error');
+                return;
+            }
+            
+            try {
+                const status = await contract.methods.isElectionActive().call();
+                
+                if (status) {
+                    showNotification('⚠️ End election first!', 'error');
+                    return;
+                }
+                
+                if (!confirm('⚠️ WARNING: This will delete ALL election data!\n\nThis action CANNOT be undone!\n\nAre you sure?')) {
+                    return;
+                }
+                
+                showNotification('⏳ Resetting election...', 'info');
+                
+                await contract.methods.resetElection()
+                    .send({ from: currentAccount });
+                
+                showNotification('✅ Election reset complete!', 'success');
+                document.getElementById('winnerSection').style.display = 'none';
+                
+                await loadElectionData();
+            } catch (error) {
+                console.error('Error resetting election:', error);
+                showNotification('❌ Failed to reset election', 'error');
+            }
+        }
+
+        // ==================== VOTER: CAST VOTE ====================
+        async function castVote(candidateId) {
+            try {
+                const candidate = await contract.methods.getCandidate(candidateId).call();
+                
+                if (!confirm(`Vote for ${candidate[1]}?\n\n⚠️ This action cannot be changed!`)) {
+                    return;
+                }
+                
+                showNotification('⏳ Casting your vote...', 'info');
+                
+                await contract.methods.castVote(candidateId)
+                    .send({ from: currentAccount });
+                
+                showNotification('✅ Vote cast successfully!', 'success');
+                await loadElectionData();
+            } catch (error) {
+                console.error('Error casting vote:', error);
+                
+                if (error.message.includes('Not registered')) {
+                    showNotification('❌ You are not registered to vote', 'error');
+                } else if (error.message.includes('Already voted')) {
+                    showNotification('❌ You have already voted', 'error');
+                } else if (error.message.includes('not active')) {
+                    showNotification('❌ Election is not active', 'error');
+                } else {
+                    showNotification('❌ Failed to cast vote', 'error');
+                }
+            }
+        }
+
+        // ==================== NOTIFICATION ====================
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 4000);
+        }
+
+        // ==================== EVENT LISTENERS ====================
+        document.addEventListener('DOMContentLoaded', async () => {
+            console.log('🚀 CR Election System Loaded');
+            
+            const web3Ready = await initWeb3();
+            
+            if (web3Ready) {
+                document.getElementById('connectWalletBtn').addEventListener('click', connectWallet);
+                document.getElementById('addCandidateBtn').addEventListener('click', addCandidate);
+                document.getElementById('registerVoterBtn').addEventListener('click', registerVoter);
+                document.getElementById('startElectionBtn').addEventListener('click', startElection);
+                document.getElementById('endElectionBtn').addEventListener('click', endElection);
+                document.getElementById('resetElectionBtn').addEventListener('click', resetElection);
+                
+                // MetaMask event listeners
+                if (window.ethereum) {
+                    window.ethereum.on('accountsChanged', async (accounts) => {
+                        if (accounts.length > 0) {
+                            currentAccount = accounts[0];
+                            document.getElementById('connectWalletBtn').textContent = 
+                                `${currentAccount.substring(0, 6)}...${currentAccount.substring(38)}`;
+                            await checkAdminRole();
+                            await loadElectionData();
+                        } else {
+                            location.reload();
+                        }
+                    });
+                    
+                    window.ethereum.on('chainChanged', () => {
+                        location.reload();
+                    });
+                }
+            }
+        });
+    </script>
 </body>
 </html>
