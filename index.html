@@ -521,9 +521,60 @@
 				"internalType": "string",
 				"name": "_name",
 				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_department",
+				"type": "string"
 			}
 		],
 		"name": "addCandidate",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_candidateId",
+				"type": "uint256"
+			}
+		],
+		"name": "castVote",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "endElection",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_voterAddress",
+				"type": "address"
+			}
+		],
+		"name": "registerVoter",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_candidateId",
+				"type": "uint256"
+			}
+		],
+		"name": "removeCandidate",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -547,65 +598,33 @@
 				"internalType": "string",
 				"name": "name",
 				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "department",
+				"type": "string"
 			}
 		],
 		"name": "CandidateAdded",
 		"type": "event"
 	},
 	{
+		"anonymous": false,
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "_candidateId",
-				"type": "uint256"
+				"indexed": false,
+				"internalType": "uint8",
+				"name": "status",
+				"type": "uint8"
 			}
 		],
-		"name": "castVote",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"anonymous": false,
-		"inputs": [],
-		"name": "ElectionEnded",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [],
-		"name": "ElectionReset",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [],
-		"name": "ElectionStarted",
+		"name": "ElectionStatusChanged",
 		"type": "event"
 	},
 	{
 		"inputs": [],
-		"name": "endElection",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_voterAddress",
-				"type": "address"
-			}
-		],
-		"name": "registerVoter",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "resetElection",
+		"name": "resetElectionComplete",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -634,19 +653,6 @@
 			}
 		],
 		"name": "VoteCasted",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "voter",
-				"type": "address"
-			}
-		],
-		"name": "VoterRegistered",
 		"type": "event"
 	},
 	{
@@ -683,6 +689,11 @@
 				"type": "string"
 			},
 			{
+				"internalType": "string",
+				"name": "department",
+				"type": "string"
+			},
+			{
 				"internalType": "uint256",
 				"name": "voteCount",
 				"type": "uint256"
@@ -711,21 +722,39 @@
 	},
 	{
 		"inputs": [],
+		"name": "electionStatus",
+		"outputs": [
+			{
+				"internalType": "uint8",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "getAllCandidates",
 		"outputs": [
 			{
 				"internalType": "uint256[]",
-				"name": "ids",
+				"name": "",
 				"type": "uint256[]"
 			},
 			{
 				"internalType": "string[]",
-				"name": "names",
+				"name": "",
+				"type": "string[]"
+			},
+			{
+				"internalType": "string[]",
+				"name": "",
 				"type": "string[]"
 			},
 			{
 				"internalType": "uint256[]",
-				"name": "voteCounts",
+				"name": "",
 				"type": "uint256[]"
 			}
 		],
@@ -744,46 +773,23 @@
 		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "id",
+				"name": "",
 				"type": "uint256"
 			},
 			{
 				"internalType": "string",
-				"name": "name",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
 				"type": "string"
 			},
 			{
 				"internalType": "uint256",
-				"name": "voteCount",
+				"name": "",
 				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getElectionStatus",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "active",
-				"type": "bool"
-			},
-			{
-				"internalType": "uint256",
-				"name": "numCandidates",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "numVotes",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "commissioner",
-				"type": "address"
 			}
 		],
 		"stateMutability": "view",
@@ -801,40 +807,17 @@
 		"outputs": [
 			{
 				"internalType": "bool",
-				"name": "isRegistered",
+				"name": "",
 				"type": "bool"
 			},
 			{
 				"internalType": "bool",
-				"name": "hasVoted",
+				"name": "",
 				"type": "bool"
 			},
 			{
 				"internalType": "uint256",
-				"name": "votedCandidateId",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getWinner",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "winnerId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "winnerName",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "winnerVotes",
+				"name": "",
 				"type": "uint256"
 			}
 		],
@@ -879,11 +862,6 @@
 		"outputs": [
 			{
 				"internalType": "bool",
-				"name": "isRegistered",
-				"type": "bool"
-			},
-			{
-				"internalType": "bool",
 				"name": "hasVoted",
 				"type": "bool"
 			},
@@ -891,6 +869,11 @@
 				"internalType": "uint256",
 				"name": "votedCandidateId",
 				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "isRegistered",
+				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
@@ -898,7 +881,7 @@
 	}
 ];
 
-        // DEPLOYED CONTRACT ADDRESS
+        // REPLACE WITH YOUR DEPLOYED CONTRACT ADDRESS
         const contractAddress = "0x293df60f7Aa016e1BE72C7BCedE13ac38B17386a";
 
         // ==================== GLOBAL VARIABLES ====================
@@ -1304,4 +1287,6 @@
         });
     </script>
 </body>
+
 </html>
+
