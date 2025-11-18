@@ -3,7 +3,6 @@ pragma solidity ^0.8.18;
 
 /**
  * @title CRElectionVoting
- * @dev Simplified and optimized CR Election voting system
  * @notice Admin deploys contract and becomes election commissioner
  */
 contract CRElectionVoting {
@@ -64,7 +63,7 @@ contract CRElectionVoting {
     // ==================== ADMIN FUNCTIONS ====================
     
     /**
-     * @dev Add a new candidate (only name, no department)
+     * @dev Add a new candidate (only name)
      * @param _name Candidate name
      */
     function addCandidate(string memory _name) 
@@ -268,6 +267,8 @@ contract CRElectionVoting {
      * @return winnerName Name of the winning candidate
      * @return winnerVotes Number of votes the winner received
      */
+
+     
     function getWinner() 
         public 
         view 
